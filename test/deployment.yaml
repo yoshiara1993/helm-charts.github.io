@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webphp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webphp
+  template:
+    metadata:
+      labels:
+        app: webphp
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-ingress
+spec:
+  ports:
+    -
+      port: 80
+      targetPort: 80
+  selector:
+    app: webphp
+  type: NodePort
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+spec:
+  backend:
+    serviceName: svc-ingress # 前の手順で作成したServiceの名前を指定
+    servicePort: 80
