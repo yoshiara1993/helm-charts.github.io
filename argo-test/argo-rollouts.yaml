@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: rollouts-demo
-        image: gcr.io/heptio-images/ks-guestbook-demo:0.2
+        image: nginx
         imagePullPolicy: Always
         ports:
         - containerPort: 80
