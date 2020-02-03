@@ -33,11 +33,11 @@ spec:
   type: NodePort
 
 ---
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: test-ingress-test2
-spec:
-  backend:
-    serviceName: svc-ingress-test2 # 前の手順で作成したServiceの名前を指定
-    servicePort: 80
+#apiVersion: extensions/v1beta1
+#kind: Ingress
+#metadata:
+#  name: test-ingress-test2
+#spec:
+#  backend:
+#    serviceName: svc-ingress-test2 # 前の手順で作成したServiceの名前を指定
+#    servicePort: 80
