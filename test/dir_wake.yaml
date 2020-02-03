@@ -7,7 +7,7 @@ spec:
     matchLabels:
       greeting: hello
       department: world
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
@@ -45,7 +45,7 @@ spec:
     matchLabels:
       greeting: hello
       department: kubernetes
-  replicas: 1
+  replicas: 5
   template:
     metadata:
       labels:
