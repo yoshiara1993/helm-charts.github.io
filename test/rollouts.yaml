@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: rollouts-demo
-        image: tmura6781/nginx-green:latest
+        image: nginx
         imagePullPolicy: Always
         ports:
         - containerPort: 80
