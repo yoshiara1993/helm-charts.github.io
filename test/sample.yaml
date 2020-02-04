@@ -3,7 +3,7 @@ kind: Rollout
 metadata:
   name: canary-demo
 spec:
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
       app: canary-demo
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: argoproj/rollouts-demo:blue
+        image: tmura6781/nginx-blue:latest
         ports:
         - name: http
           containerPort: 8080
@@ -23,8 +23,6 @@ spec:
     canary:    #カナリアリリースを実施
       steps:
       - setWeight: 20  # 20%のトラフィックを新しいバージョンに流す
-      - pause: {}      # コマンドによってpromoteされるまで待機
-      - setWeight: 40  # promoteされたら40%を新しいバージョンに流す
       - pause: {duration: 10}  # 10秒待機
       - setWeight: 60          # 10秒経過後、60%を新しいバージョンに流す
       - pause: {duration: 10}  # 10秒待機
