@@ -17,7 +17,7 @@ spec:
         image: tmura6781/nginx-blue:latest
         ports:
         - name: http
-          containerPort: 8080
+          containerPort: 80
           protocol: TCP
   strategy:
     canary:    #カナリアリリースを実施
@@ -40,5 +40,5 @@ spec:
     app: canary-demo
   ports:
   - protocol: TCP
-    port: 8080
+    port: 80
   type: LoadBalancer
