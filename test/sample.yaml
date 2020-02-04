@@ -23,13 +23,11 @@ spec:
     canary:    #カナリアリリースを実施
       steps:
       - setWeight: 20  # 20%のトラフィックを新しいバージョンに流す
-      - pause: {}      # コマンドによってpromoteされるまで待機
-      - setWeight: 40  # promoteされたら40%を新しいバージョンに流す
-      - pause: {duration: 10}  # 10秒待機
+      - pause: {duration: 5}  # 10秒待機
       - setWeight: 60          # 10秒経過後、60%を新しいバージョンに流す
-      - pause: {duration: 10}  # 10秒待機
+      - pause: {duration: 5}  # 10秒待機
       - setWeight: 80          # 10秒経過後、80%を新しいバージョンに流す
-      - pause: {duration: 10}  # 10秒待機。その後すべてのトラフィックを新しいバージョンに流す
+      - pause: {duration: 5}  # 10秒待機。その後すべてのトラフィックを新しいバージョンに流す
 ---
 kind: Service
 apiVersion: v1
