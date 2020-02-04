@@ -1,6 +1,39 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: canary-demo
+# spec:
+#   replicas: 2
+#   selector:
+#     matchLabels:
+#       app: canary-demo
+#   template:
+#     metadata:
+#       labels:
+#         app: canary-demo
+#     spec:
+#       containers:
+#       - name: app
+#         image: nginx
+#         ports:
+#         - name: http
+#           containerPort: 8080
+#           protocol: TCP
+# ---
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: canary-demo
+# spec:
+#   selector:
+#     app: canary-demo
+#   ports:
+#   - protocol: TCP
+#     port: 8080
+#   type: LoadBalancer
+
+apiVersion: argoproj.io/v1alpha1  # 変更
+kind: Rollout  # 変更。
   name: canary-demo
 spec:
   replicas: 2
@@ -19,6 +52,18 @@ spec:
         - name: http
           containerPort: 8080
           protocol: TCP
+   # ここから下を追記
+  minReadySeconds: 30 # ３０秒待つ？
+  revisionHistoryLimit: 3 # 3世代保持。つまり3世代までロールバック可能。
+  strategy:
+    canary:
+      steps:
+      - setWeight: 20  # 全体トラフィックの20%を
+      - pause: 
+          duration: 20  # 20秒間新しいアプケーションに流す
+      - setWeight: 50  # 次に全体トラフィックの５0%を
+      - pause:
+          duration: 20  # 20秒間新しいアプケーションに流す         
 ---
 kind: Service
 apiVersion: v1
