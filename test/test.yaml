@@ -1,9 +1,9 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: canary-demo
 spec:
-  replicas: 5
+  replicas: 2
   selector:
     matchLabels:
       app: canary-demo
@@ -14,22 +14,11 @@ spec:
     spec:
       containers:
       - name: app
-        image: argoproj/rollouts-demo:blue
+        image: nginx
         ports:
         - name: http
           containerPort: 8080
           protocol: TCP
-  strategy:
-    canary:    #カナリアリリースを実施
-      steps:
-      - setWeight: 20  # 20%のトラフィックを新しいバージョンに流す
-      - pause: {}      # コマンドによってpromoteされるまで待機
-      - setWeight: 40  # promoteされたら40%を新しいバージョンに流す
-      - pause: {duration: 10}  # 10秒待機
-      - setWeight: 60          # 10秒経過後、60%を新しいバージョンに流す
-      - pause: {duration: 10}  # 10秒待機
-      - setWeight: 80          # 10秒経過後、80%を新しいバージョンに流す
-      - pause: {duration: 10}  # 10秒待機。その後すべてのトラフィックを新しいバージョンに流す
 ---
 kind: Service
 apiVersion: v1
