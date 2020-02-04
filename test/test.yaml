@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1  # 変更
 kind: Rollout  # 変更。ここでようやくargo-rolloutsを登場
 metadata:
   name: frontend
+  namespace: argotest
 spec:
   selector:
     matchLabels:
