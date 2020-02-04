@@ -30,4 +30,4 @@ spec:
   ports:
   - protocol: TCP
     port: 8080
-  type: 
+  type: LoadBalancer
