@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: nginx
+        image: tmura6781/nginx-blue:latest
         ports:
         - name: http
           containerPort: 80
