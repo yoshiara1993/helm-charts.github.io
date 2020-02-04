@@ -77,7 +77,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: divideByPath
+  name: divide_by_path
 spec:
   rules:
   - http:
