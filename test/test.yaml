@@ -1,46 +1,32 @@
-apiVersion: argoproj.io/v1alpha1  # 変更
-kind: Rollout  # 変更。ここでようやくargo-rolloutsを登場
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
-  name: frontend
-  namespace: argotest
+  name: canary-demo
 spec:
+  replicas: 5
   selector:
     matchLabels:
-      app: guestbook
-      tier: frontend
-  replicas: 3
+      app: canary-demo
   template:
     metadata:
       labels:
-        app: guestbook
-        tier: frontend
+        app: canary-demo
     spec:
       containers:
-      - name: php-redis
-        image: nginx
-        resources:
-          requests:
-            cpu: 110m
-            memory: 110Mi
-        env:
-        - name: GET_HOSTS_FROM
-          value: dns
-          # If your cluster config does not include a dns service, then to
-          # instead access environment variables to find service host
-          # info, comment out the 'value: dns' line above, and uncomment the
-          # line below:
-          # value: env
+      - name: app
+        image: argoproj/rollouts-demo:blue
         ports:
-        - containerPort: 80
-  # ここから下を追記
-  minReadySeconds: 30 # ３０秒待つ？
-  revisionHistoryLimit: 3 # 3世代保持。つまり3世代までロールバック可能。
+        - name: http
+          containerPort: 8080
+          protocol: TCP
   strategy:
-    canary:
+    canary:    #カナリアリリースを実施
       steps:
-      - setWeight: 20  # 全体トラフィックの20%を
-      - pause: 
-          duration: 20  # 20秒間新しいアプケーションに流す
-      - setWeight: 50  # 次に全体トラフィックの５0%を
-      - pause:
-          duration: 20  # 20秒間新しいアプケーションに流す
+      - setWeight: 20  # 20%のトラフィックを新しいバージョンに流す
+      - pause: {}      # コマンドによってpromoteされるまで待機
+      - setWeight: 40  # promoteされたら40%を新しいバージョンに流す
+      - pause: {duration: 10}  # 10秒待機
+      - setWeight: 60          # 10秒経過後、60%を新しいバージョンに流す
+      - pause: {duration: 10}  # 10秒待機
+      - setWeight: 80          # 10秒経過後、80%を新しいバージョンに流す
+      - pause: {duration: 10}  # 10秒待機。その後すべてのトラフィックを新しいバージョンに流す
