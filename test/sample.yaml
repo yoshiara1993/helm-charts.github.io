@@ -31,9 +31,8 @@
 #   - protocol: TCP
 #     port: 8080
 #   type: LoadBalancer
-
-apiVersion: argoproj.io/v1alpha1  # 変更
-kind: Rollout  # 変更。
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout 
   name: canary-demo
 spec:
   replicas: 2
