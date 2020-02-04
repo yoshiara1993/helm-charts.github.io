@@ -30,3 +30,15 @@ spec:
       - pause: {duration: 10}  # 10秒待機
       - setWeight: 80          # 10秒経過後、80%を新しいバージョンに流す
       - pause: {duration: 10}  # 10秒待機。その後すべてのトラフィックを新しいバージョンに流す
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: canary-demo
+spec:
+  selector:
+    app: canary-demo
+  ports:
+  - protocol: TCP
+    port: 8080
+  type: 
