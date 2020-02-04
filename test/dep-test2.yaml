@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: test2
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: test2
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: tmura6781/nginx-blue:latest
+        image: tmura6781/nginx-green:latest
         ports:
         - containerPort: 80
 
